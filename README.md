@@ -1,6 +1,6 @@
 # pontuador
 
-App paraa pontuar horários
+App para pontuar horários
 
 ## Getting Started
 
