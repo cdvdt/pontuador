@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
       ])),
       floatingActionButton: FloatingActionButton(
         onPressed: _addTimeTag,
-        tooltip: 'Increment',
+        tooltip: 'Adicionar pontuação',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
