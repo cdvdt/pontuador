@@ -1,6 +1,7 @@
-# pontuador
+# Pontuador
 
-App para pontuar horários
+General time tracking application.
+Android and web are supported, ios, linux and windows may be added.
 
 ## Getting Started
 
