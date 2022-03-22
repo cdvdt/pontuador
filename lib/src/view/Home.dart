@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pontuador/src/view/Timer.dart';
 
-import '../Model/CustomTheme.dart';
+import '../model/CustomTheme.dart';
 import 'Pontuador.dart';
 
 class Home extends StatefulWidget {

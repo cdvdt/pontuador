@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pontuador/src/Model/TimeTag.dart';
+import 'package:pontuador/src/controller/ObjectBox.dart';
+import 'package:pontuador/src/controller/TimeStampController.dart';
+import 'package:pontuador/src/model/TimeStamp.dart';
 import 'package:pontuador/src/view/TimeTagView.dart';
 
 class PontuadorView extends StatefulWidget {
@@ -9,17 +11,32 @@ class PontuadorView extends StatefulWidget {
   State<PontuadorView> createState() => _PontuadorViewState();
 }
 
-class _PontuadorViewState extends State<PontuadorView> with AutomaticKeepAliveClientMixin<PontuadorView>{
+class _PontuadorViewState extends State<PontuadorView>
+    with AutomaticKeepAliveClientMixin<PontuadorView> {
   @override
   bool get wantKeepAlive => true;
+
+  final timeTagBox = ObjectBox().store.box<TimeStamp>();
+  List<TimeStamp> timeTags = [];
+
+  void updateTags() => timeTags = TimeStampController().getTimeTags();
 
   @override
   void initState() {
     super.initState();
+    updateTags();
   }
-  List<TimeTag> timeTags = [];
 
-  void _addTimeTag() => setState(() => timeTags.add(TimeTag()));
+  void _addTimeTag() {
+    final newTag = TimeStamp.newStamp();
+    TimeStampController().addTimeTag(newTag);
+    setState(() => updateTags());
+  }
+
+  void _removeTimeTag(TimeStamp timeTag) {
+    TimeStampController().removeTimeTag(timeTag);
+    setState(() => updateTags());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +48,16 @@ class _PontuadorViewState extends State<PontuadorView> with AutomaticKeepAliveCl
         child: const Icon(Icons.add),
       ),
       body: Center(
-        /*child: ListView(
+          /*child: ListView(
                 children: timeTags.map((timeTag) => TimeTagView(timeTag)).toList()
               ),*/
           child: CustomScrollView(slivers: [
-            SliverList(
-                delegate: SliverChildBuilderDelegate(
-                        (context, index) => TimeTagView(timeTags[index]),
-                    childCount: timeTags.length)),
-          ])),
+        SliverList(
+            delegate: SliverChildBuilderDelegate(
+                (context, index) =>
+                    TimeTagView(timeTags[index], _removeTimeTag),
+                childCount: timeTags.length)),
+      ])),
     );
   }
 }
