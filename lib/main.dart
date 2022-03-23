@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pontuador/src/controller/ObjectBox.dart';
+import 'package:pontuador/src/controller/HiveController.dart';
 import 'package:pontuador/src/model/CustomTheme.dart';
 import 'package:pontuador/src/view/Home.dart';
 
@@ -8,7 +8,7 @@ import 'package:pontuador/src/view/Home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await ObjectBox.create();
+  await HiveController.init();
 
   runApp(const MyApp());
 }

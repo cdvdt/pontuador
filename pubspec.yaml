@@ -31,8 +31,8 @@ dependencies:
     sdk: flutter
 
   intl:
-  objectbox: ^1.4.0
-  objectbox_flutter_libs: any
+  hive:
+  hive_flutter:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -49,8 +49,8 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
 
-  build_runner: ^2.0.0
-  objectbox_generator: any
+  hive_generator:
+  build_runner:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

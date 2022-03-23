@@ -1,4 +1,4 @@
-import 'package:pontuador/src/controller/ObjectBox.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pontuador/src/model/TimeStamp.dart';
 
 class TimeStampController {
@@ -6,15 +6,20 @@ class TimeStampController {
 
   TimeStampController._internal();
 
-  final timeStampBox = ObjectBox().store.box<TimeStamp>();
+  late final Box<TimeStamp> timeStampBox;
 
   factory TimeStampController() {
     return _instance;
   }
 
-  List<TimeStamp> getTimeTags() => timeStampBox.getAll();
-  
-  void addTimeTag(TimeStamp timeTag) => timeStampBox.put(timeTag);
+  static Future<void> init() async {
+    Hive.registerAdapter(TimeStampAdapter());
+    _instance.timeStampBox = await Hive.openBox<TimeStamp>('timeStamp');
+  }
 
-  void removeTimeTag(TimeStamp timeTag) => timeStampBox.remove(timeTag.id);
+  List<TimeStamp> getTimeTags() => timeStampBox.values.toList();
+
+  void addTimeTag(TimeStamp timeTag) => timeStampBox.add(timeTag);
+
+  void removeTimeTag(TimeStamp timeTag) => timeStampBox.delete(timeTag.key);
 }

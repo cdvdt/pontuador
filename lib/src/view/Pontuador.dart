@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pontuador/src/controller/ObjectBox.dart';
 import 'package:pontuador/src/controller/TimeStampController.dart';
 import 'package:pontuador/src/model/TimeStamp.dart';
 import 'package:pontuador/src/view/TimeTagView.dart';
@@ -16,7 +15,6 @@ class _PontuadorViewState extends State<PontuadorView>
   @override
   bool get wantKeepAlive => true;
 
-  final timeTagBox = ObjectBox().store.box<TimeStamp>();
   List<TimeStamp> timeTags = [];
 
   void updateTags() => timeTags = TimeStampController().getTimeTags();

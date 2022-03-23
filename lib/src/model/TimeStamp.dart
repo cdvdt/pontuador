@@ -1,14 +1,18 @@
-import 'package:objectbox/objectbox.dart';
+import 'package:hive/hive.dart';
 
-@Entity()
-class TimeStamp {
-  int id = 0;
+part 'TimeStamp.g.dart';
 
-  TimeStamp(this.id, time, this.description): _time = time;
+@HiveType(typeId: 1)
+class TimeStamp extends HiveObject {
+  //int id = 0;
 
+  TimeStamp(): _time = DateTime.now(), description = "";
+
+  @HiveField(0)
   DateTime _time;
   DateTime get time => _time;
 
+  @HiveField(1)
   String description;
 
   //TimeTag(): _time = DateTime.now(), description = "";
