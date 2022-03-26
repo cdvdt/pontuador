@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pontuador/src/model/TimeStamp.dart';
 
@@ -17,9 +18,13 @@ class TimeStampController {
     _instance.timeStampBox = await Hive.openBox<TimeStamp>('timeStamp');
   }
 
-  List<TimeStamp> getTimeTags() => timeStampBox.values.toList();
+  List<TimeStamp> getTimeStamps() => timeStampBox.values.toList();
 
-  void addTimeTag(TimeStamp timeTag) => timeStampBox.add(timeTag);
+  void addTimeStamp(TimeStamp timeStamp) => timeStampBox.add(timeStamp);
 
-  void removeTimeTag(TimeStamp timeTag) => timeStampBox.delete(timeTag.key);
+  void removeTimeStamp(TimeStamp timeStamp) => timeStampBox.delete(timeStamp.key);
+
+  ValueListenable<Box<TimeStamp>> getTimeStampListenable() => timeStampBox.listenable();
+
+  void updateTimeStamp(TimeStamp timeStamp) => timeStampBox.put(timeStamp.key, timeStamp);
 }

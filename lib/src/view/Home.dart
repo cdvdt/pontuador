@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pontuador/src/view/Timer.dart';
 
 import '../model/CustomTheme.dart';
-import 'Pontuador.dart';
+import 'TimeStamp/Pontuador.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key, required this.title, required this.darkTheme, required this.lightTheme, required this.onThemeChange}) : super(key: key);
