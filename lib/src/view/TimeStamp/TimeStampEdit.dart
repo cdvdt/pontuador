@@ -4,12 +4,17 @@ import 'package:pontuador/src/model/TimeStamp.dart';
 
 class TimeStampEdit extends StatefulWidget {
   final TimeStamp _timeStamp;
+  String _description;
+  DateTime _date;
+  DateTime _time;
   final void Function(TimeStamp timeStamp) _onApplyChanges;
 
-  const TimeStampEdit(
-      timeStamp, void Function(TimeStamp timeStamp) onApplyChanges,
+  TimeStampEdit(timeStamp, void Function(TimeStamp timeStamp) onApplyChanges,
       {Key? key})
       : _timeStamp = timeStamp,
+        _description = timeStamp.description,
+        _date = timeStamp.value,
+        _time = timeStamp.value,
         _onApplyChanges = onApplyChanges,
         super(key: key);
 
@@ -18,15 +23,30 @@ class TimeStampEdit extends StatefulWidget {
 }
 
 class _TimeStampEditState extends State<TimeStampEdit> {
+  final TextEditingController controller = TextEditingController();
+  
+  @override
+  void initState() {
+    super.initState();
+
+    controller.text = widget._description;
+    controller.addListener(() => setState(()  => widget._description = controller.text));
+  }
+
+  TimeOfDay _timeAsTimeOfDay () => TimeOfDay.fromDateTime(widget._time);
+
   @override
   Widget build(BuildContext context) {
-    final TextEditingController controller =
-        TextEditingController(text: widget._timeStamp.description);
     return Scaffold(
       appBar: AppBar(title: const Text('Edit TimeStamp'), actions: [
         IconButton(
             onPressed: () {
-              widget._timeStamp.description = controller.text;
+              var timeStamp = widget._timeStamp;
+              timeStamp.description = controller.text;
+              var time = widget._time;
+              if (!time.isAtSameMomentAs(timeStamp.value))
+                timeStamp.time = _timeAsTimeOfDay();
+              timeStamp.date = widget._date;
               widget._onApplyChanges(widget._timeStamp);
               Navigator.pop(context);
             },
@@ -36,40 +56,56 @@ class _TimeStampEditState extends State<TimeStampEdit> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Description'),
-            TextFormField(
-              controller: controller,
+            ListTile(
+              title: const Text('Description'),
+              subtitle: TextFormField(
+                controller: controller,
+              ),
             ),
-            const Text('Date'),
-            TextButton(
-                onPressed: () async {
-                  final DateTime? picked = await showDatePicker(
-                      context: context,
-                      initialDate: widget._timeStamp.value,
-                      initialDatePickerMode: DatePickerMode.day,
-                      firstDate: DateTime(2020),
-                      lastDate: DateTime(2100));
-                  if (picked != null) {
-                    setState(() => widget._timeStamp.date = picked);
-                  }
-                },
-                child: Text(
-                    DateFormat("dd/MM/yyyy").format(widget._timeStamp.value))),
-            const Text('Time'),
-            TextButton(
-                onPressed: () async {
-                  final TimeOfDay? picked = await showTimePicker(
-                      context: context,
-                      initialTime:
-                          TimeOfDay.fromDateTime(widget._timeStamp.value));
-                  if (picked != null) {
-                    setState(() {
-                      widget._timeStamp.time = picked;
-                    });
-                  }
-                },
-                child: Text(
-                    DateFormat("HH:mm:ss").format(widget._timeStamp.value)))
+            ListTile(
+              title: const Text('Date'),
+              subtitle: TextButton(
+                  onPressed: () async {
+                    final DateTime? picked = await showDatePicker(
+                        context: context,
+                        initialDate: widget._date,
+                        initialDatePickerMode: DatePickerMode.day,
+                        firstDate: DateTime(2020),
+                        lastDate: DateTime(2100));
+                    if (picked != null) {
+                      setState(() => widget._date = picked);
+                    }
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(DateFormat("dd/MM/yyyy")
+                          .format(widget._date)),
+                      Icon(Icons.calendar_today),
+                    ],
+                  )),
+            ),
+            ListTile(
+              title: const Text('Time'),
+              subtitle: TextButton(
+                  onPressed: () async {
+                    final TimeOfDay? picked = await showTimePicker(
+                        context: context,
+                        initialTime: _timeAsTimeOfDay());
+                    if (picked != null) {
+                      setState(() {
+                        widget._time = DateTime(0,0,0, picked.hour, picked.minute);
+                      });
+                    }
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(_timeAsTimeOfDay().format(context)),
+                      Icon(Icons.timer),
+                    ],
+                  )),
+            )
           ]),
     );
   }
