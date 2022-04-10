@@ -33,4 +33,8 @@ class TimeStamp extends HiveObject {
   TimeStamp.newStamp()
       : _time = DateTime.now(),
         description = "";
+
+  int compareTo(TimeStamp b) {
+    return value.compareTo(b.value);
+  }
 }

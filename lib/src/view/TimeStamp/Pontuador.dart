@@ -62,12 +62,14 @@ class _PontuadorViewState extends State<PontuadorView>
           valueListenable: TimeStampController().getTimeStampListenable(),
           builder: (context, box, widget) {
             var timeTags = box.values.toList();
+            timeTags.sort((a, b) => a.compareTo(b));
             return Center(
                 child: CustomScrollView(slivers: [
               SliverList(
                   delegate: SliverChildBuilderDelegate(
                       (context, index) => TimeTagView(
-                          box.values.toList()[index],
+                          //box.values.toList()[index],
+                          timeTags[index],
                           _editTimeTag,
                           _removeTimeTag),
                       childCount: timeTags.length)),
