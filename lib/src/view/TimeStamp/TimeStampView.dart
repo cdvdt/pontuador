@@ -4,14 +4,14 @@ import 'package:pontuador/src/model/TimeStamp.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:pontuador/src/view/CustomDialog.dart';
 
-class TimeTagView extends StatelessWidget {
+class TimeStampView extends StatelessWidget {
   final TimeStamp _timeStamp;
-  final void Function(TimeStamp timeTag) _onEdit;
-  final void Function(TimeStamp timeTag) _onDelete;
+  final void Function(TimeStamp timeStamp) _onEdit;
+  final void Function(TimeStamp timeStamp) _onDelete;
   static const _editIcon = Icons.edit;
   static const _deleteIcon = Icons.delete;
 
-  const TimeTagView(
+  const TimeStampView(
       TimeStamp timeStamp,
       final void Function(TimeStamp timeTag) onEdit,
       void Function(TimeStamp timeTag) onDelete,
@@ -32,7 +32,7 @@ class TimeTagView extends StatelessWidget {
     return Slidable(
       key: ValueKey<TimeStamp>(_timeStamp),
       startActionPane: ActionPane(
-        motion: ScrollMotion(),
+        motion: const ScrollMotion(),
         children: [
           SlidableAction(
             onPressed: (context) => _onEdit(_timeStamp),
@@ -41,7 +41,7 @@ class TimeTagView extends StatelessWidget {
         ],
       ),
       endActionPane: ActionPane(
-        motion: ScrollMotion(),
+        motion: const ScrollMotion(),
         children: [
           SlidableAction(
             onPressed: _deleteItem,

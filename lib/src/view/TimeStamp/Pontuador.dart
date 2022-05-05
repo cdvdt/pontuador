@@ -3,10 +3,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pontuador/src/controller/TimeStampController.dart';
 import 'package:pontuador/src/model/TimeStamp.dart';
 import 'package:pontuador/src/view/TimeStamp/TimeStampEdit.dart';
-import 'package:pontuador/src/view/TimeStamp/TimeTagView.dart';
+import 'package:pontuador/src/view/TimeStamp/TimeStampView.dart';
 
 class PontuadorView extends StatefulWidget {
-  PontuadorView();
+  const PontuadorView({Key? key}) : super(key: key);
 
   @override
   State<PontuadorView> createState() => _PontuadorViewState();
@@ -67,7 +67,7 @@ class _PontuadorViewState extends State<PontuadorView>
                 child: CustomScrollView(slivers: [
               SliverList(
                   delegate: SliverChildBuilderDelegate(
-                      (context, index) => TimeTagView(
+                      (context, index) => TimeStampView(
                           //box.values.toList()[index],
                           timeTags[index],
                           _editTimeTag,
