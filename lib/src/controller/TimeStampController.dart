@@ -20,11 +20,24 @@ class TimeStampController {
 
   List<TimeStamp> getTimeStamps() => timeStampBox.values.toList();
 
+  TimeStamp? get oldest {
+    var values = timeStampBox.values.toList()..sort((a, b) => a.compareTo(b));
+    return values.first;
+  }
+
+  TimeStamp? get newest {
+    var values = timeStampBox.values.toList()..sort((a, b) => a.compareTo(b));
+    return values.last;
+  }
+
   void addTimeStamp(TimeStamp timeStamp) => timeStampBox.add(timeStamp);
 
-  void removeTimeStamp(TimeStamp timeStamp) => timeStampBox.delete(timeStamp.key);
+  void removeTimeStamp(TimeStamp timeStamp) =>
+      timeStampBox.delete(timeStamp.key);
 
-  ValueListenable<Box<TimeStamp>> getTimeStampListenable() => timeStampBox.listenable();
+  ValueListenable<Box<TimeStamp>> getTimeStampListenable() =>
+      timeStampBox.listenable();
 
-  void updateTimeStamp(TimeStamp timeStamp) => timeStampBox.put(timeStamp.key, timeStamp);
+  void updateTimeStamp(TimeStamp timeStamp) =>
+      timeStampBox.put(timeStamp.key, timeStamp);
 }

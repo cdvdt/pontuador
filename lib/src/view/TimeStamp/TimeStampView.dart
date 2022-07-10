@@ -54,14 +54,14 @@ class TimeStampView extends StatelessWidget {
         title: Text(DateFormat("dd/MM/yyyy HH:mm:ss").format(_timeStamp.value)),
         subtitle:
             _timeStamp.description != "" ? Text(_timeStamp.description) : null,
-        trailing: Row(children: [
+        trailing: Row(mainAxisSize: MainAxisSize.min, children: [
           IconButton(
               onPressed: () => _onEdit(_timeStamp),
               icon: const Icon(_editIcon)),
           IconButton(
               onPressed: () => _deleteItem(context),
               icon: const Icon(_deleteIcon))
-        ], mainAxisSize: MainAxisSize.min),
+        ]),
       ),
     );
   }

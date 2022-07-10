@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TimersView extends StatefulWidget{
-  TimersView();
+  const TimersView();
 
   @override
   State<TimersView> createState() => _TimersViewState();

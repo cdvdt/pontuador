@@ -44,8 +44,9 @@ class _TimeStampEditState extends State<TimeStampEdit> {
               var timeStamp = widget._timeStamp;
               timeStamp.description = controller.text;
               var time = widget._time;
-              if (!time.isAtSameMomentAs(timeStamp.value))
+              if (!time.isAtSameMomentAs(timeStamp.value)) {
                 timeStamp.time = _timeAsTimeOfDay();
+              }
               timeStamp.date = widget._date;
               widget._onApplyChanges(widget._timeStamp);
               Navigator.pop(context);
@@ -70,7 +71,7 @@ class _TimeStampEditState extends State<TimeStampEdit> {
                         context: context,
                         initialDate: widget._date,
                         initialDatePickerMode: DatePickerMode.day,
-                        firstDate: DateTime(2020),
+                        firstDate: DateTime(2000),
                         lastDate: DateTime(2100));
                     if (picked != null) {
                       setState(() => widget._date = picked);
@@ -81,7 +82,7 @@ class _TimeStampEditState extends State<TimeStampEdit> {
                     children: [
                       Text(DateFormat("dd/MM/yyyy")
                           .format(widget._date)),
-                      Icon(Icons.calendar_today),
+                      const Icon(Icons.calendar_today),
                     ],
                   )),
             ),
@@ -102,7 +103,7 @@ class _TimeStampEditState extends State<TimeStampEdit> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(_timeAsTimeOfDay().format(context)),
-                      Icon(Icons.timer),
+                      const Icon(Icons.timer),
                     ],
                   )),
             )

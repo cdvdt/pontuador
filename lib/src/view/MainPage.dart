@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:pontuador/src/controller/ThemeController.dart';
 import 'package:pontuador/src/view/Timer.dart';
 
 import 'TimeStamp/Pontuador.dart';
 
-class Home extends StatelessWidget {
-  const Home({Key? key, required this.title}) : super(key: key);
+class MainPage extends StatelessWidget {
+  const MainPage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
   Widget build(BuildContext context) {
-    var themeController = ThemeController();
+
     return Scaffold(
-        appBar: AppBar(
+        /*appBar: AppBar(
           title: Text(title),
           actions: [
-            IconButton(
-                onPressed: () => themeController.switchTheme(),
-                icon: Icon(themeController.currentTheme.icon))
+            /*IconButton(
+                onPressed: null,
+                icon: Icon(themeController.currentTheme.icon))*/
           ],
-        ),
+        ),*/
         bottomNavigationBar: tabBar(),
-        body: TabBarView(
-          children: [const PontuadorView(), TimersView()],
+        body: const TabBarView(
+          children: [PontuadorView(), TimersView()],
         ) // This trailing comma makes auto-formatting nicer for build methods.
         );
   }

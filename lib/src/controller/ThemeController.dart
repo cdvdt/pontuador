@@ -1,4 +1,5 @@
-import 'package:pontuador/src/model/CustomTheme.dart';
+import 'package:flutter/material.dart';
+import 'package:pontuador/src/model/Settings.dart';
 
 class ThemeControllerNotInitializedException implements Exception {}
 
@@ -11,28 +12,21 @@ class ThemeController {
     return _instance;
   }
 
-  void Function(CustomTheme theme)? _onChangeTheme;
+  void Function(ThemeMode themeMode)? _onChangeThemeMode;
 
-  //TODO: Implement load and save for this.
-  bool usingDarkTheme = true;
-
-  static void init(void Function(CustomTheme theme) onChangeTheme,
+  static void init(void Function(ThemeMode themeMode) onChangeThemeMode,
       [bool useDarkTheme = true]) {
     var themeController = ThemeController();
-    themeController._onChangeTheme = onChangeTheme;
-    themeController.usingDarkTheme = useDarkTheme;
+    themeController._onChangeThemeMode = onChangeThemeMode;
   }
 
-  void switchTheme() {
-    if (_onChangeTheme != null) {
-      usingDarkTheme = !usingDarkTheme;
-      _onChangeTheme!(currentTheme);
-    } else {
-      throw ThemeControllerNotInitializedException();
-    }
+  void updateThemeMode(Settings settings) {
+    if (_onChangeThemeMode != null) _onChangeThemeMode!(getThemeMode(settings));
   }
 
-  CustomTheme get currentTheme {
-    return usingDarkTheme ? CustomTheme.darkTheme : CustomTheme.lightTheme;
-  }
+  ThemeMode getThemeMode(Settings settings) => settings.useSystemTheme
+      ? ThemeMode.system
+      : settings.useDarkMode
+          ? ThemeMode.dark
+          : ThemeMode.light;
 }

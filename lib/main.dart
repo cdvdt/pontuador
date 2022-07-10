@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:pontuador/src/controller/HiveController.dart';
 import 'package:pontuador/src/controller/ThemeController.dart';
 import 'package:pontuador/src/model/CustomTheme.dart';
-import 'package:pontuador/src/view/Home.dart';
+import 'package:pontuador/src/model/Settings.dart';
+import 'package:pontuador/src/view/MainPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await HiveController.init();
+  await Settings().read();
 
   runApp(const PontuadorApp());
 }
@@ -20,10 +22,10 @@ class PontuadorApp extends StatefulWidget {
 }
 
 class _PontuadorAppState extends State<PontuadorApp> {
-  CustomTheme currentTheme = CustomTheme.darkTheme;
+  ThemeMode _themeMode = ThemeController().getThemeMode(Settings());
 
   _PontuadorAppState() {
-    ThemeController.init(setTheme);
+    ThemeController.init((themeMode) => setState(() => _themeMode = themeMode));
   }
 
   // This widget is the root of your application.
@@ -31,18 +33,14 @@ class _PontuadorAppState extends State<PontuadorApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: currentTheme.theme,
+      theme: CustomTheme.lightTheme.theme,
+      darkTheme: CustomTheme.darkTheme.theme,
+      themeMode: _themeMode,
       home: const DefaultTabController(
           length: 2,
-          child: Home(
+          child: MainPage(
               title: 'Pontuador',
               )),
     );
-  }
-
-  void setTheme(CustomTheme theme) {
-    setState(() {
-      currentTheme = theme;
-    });
   }
 }
