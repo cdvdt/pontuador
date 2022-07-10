@@ -21,13 +21,19 @@ class TimeStampController {
   List<TimeStamp> getTimeStamps() => timeStampBox.values.toList();
 
   TimeStamp? get oldest {
-    var values = timeStampBox.values.toList()..sort((a, b) => a.compareTo(b));
-    return values.first;
+    var items = timeStampBox.values;
+    if (items.isNotEmpty) {
+      var list = items.toList()..sort((a, b) => a.compareTo(b));
+      return list.first;
+    } else null;
   }
 
   TimeStamp? get newest {
-    var values = timeStampBox.values.toList()..sort((a, b) => a.compareTo(b));
-    return values.last;
+    var items = timeStampBox.values;
+    if (items.isNotEmpty) {
+      var list = items.toList()..sort((a, b) => a.compareTo(b));
+      return list.last;
+    } else null;
   }
 
   void addTimeStamp(TimeStamp timeStamp) => timeStampBox.add(timeStamp);
