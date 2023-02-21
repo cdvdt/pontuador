@@ -46,4 +46,15 @@ class TimeStampController {
 
   void updateTimeStamp(TimeStamp timeStamp) =>
       timeStampBox.put(timeStamp.key, timeStamp);
+
+  void removeByPeriod(DateTime start, DateTime end) {
+    var items = timeStampBox.values;
+    if (items.isNotEmpty) {
+      var list = items.where((value) {
+        var date = value.value;
+        return date.isAfter(start) && date.isBefore(end);
+      });
+      timeStampBox.deleteAll(list.map((e) => e.key));
+    }
+  }
 }

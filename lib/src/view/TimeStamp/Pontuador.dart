@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:pontuador/src/controller/DateTimeController.dart';
 import 'package:pontuador/src/controller/TimeStampController.dart';
 import 'package:pontuador/src/model/Settings.dart';
 import 'package:pontuador/src/model/TimeStamp.dart';
@@ -60,13 +61,6 @@ class _PontuadorViewState extends State<PontuadorView>
     _lowLimit = TimeStampController().oldest?.value;
     _highLimit = TimeStampController().newest?.value;
   }
-
-  DateTime _toStartOfDay(DateTime date) =>
-      DateTime(date.year, date.month, date.day);
-
-  DateTime _toEndOfDay(DateTime date) =>
-      DateTime(date.year, date.month, date.day + 1)
-          .subtract(Duration(milliseconds: 1));
 
   Widget _dateSelector(String caption, DateTime currentDate,
       void Function(DateTime selectedDate) onSelected) {
@@ -136,12 +130,12 @@ class _PontuadorViewState extends State<PontuadorView>
                       'From date',
                       _max(_initialDate, _lowLimitSafe),
                       (selectedDate) => setState(
-                          () => _initialDate = _toStartOfDay(selectedDate))),
+                          () => _initialDate = DateTimeController.toStartOfDay(selectedDate))),
                   _dateSelector(
                       'To date',
                       _min(_finalDate, _highLimitSafe),
                       (selectedDate) => setState(
-                          () => _finalDate = _toEndOfDay(selectedDate))),
+                          () => _finalDate = DateTimeController.toEndOfDay(selectedDate))),
                 ]),
           ),
           Expanded(
@@ -149,12 +143,13 @@ class _PontuadorViewState extends State<PontuadorView>
                 valueListenable: TimeStampController().getTimeStampListenable(),
                 builder: (context, box, widget) {
                   var timeTags = box.values.toList();
-                  if (_filtered)
+                  if (_filtered) {
                     timeTags.retainWhere((element) {
                       var item = element.value;
                       return item.compareTo(_initialDate) >= 0 &&
                           item.compareTo(_finalDate) <= 0;
                     });
+                  }
                   timeTags.sort((a, b) => a.compareTo(b));
                   return Center(
                       child: CustomScrollView(slivers: [

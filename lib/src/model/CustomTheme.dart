@@ -30,6 +30,7 @@ class CustomTheme{
         appBarTheme: const AppBarTheme(
             backgroundColor: appBarDarkColor,
             shadowColor: appBarDarkColor,
+            elevation: 0,
             titleTextStyle: TextStyle(
                 fontWeight: FontWeight.bold, fontSize: 25, color: Colors.white),
             centerTitle: false),
@@ -54,6 +55,7 @@ class CustomTheme{
         appBarTheme: const AppBarTheme(
             backgroundColor: appBarDarkColor,
             shadowColor: appBarDarkColor,
+            elevation: 0,
             titleTextStyle: TextStyle(
                 fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),
             iconTheme: IconThemeData(color: Colors.black),

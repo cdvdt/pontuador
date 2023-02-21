@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pontuador/src/controller/ThemeController.dart';
+import 'package:pontuador/src/controller/TimeStampController.dart';
 import 'package:pontuador/src/model/Settings.dart';
+import 'package:pontuador/src/view/CustomDialog.dart';
+import 'package:pontuador/src/view/widget/DateSelector.dart';
+import 'package:pontuador/src/controller/DateTimeController.dart';
 
 class SettingsView extends StatefulWidget {
   Settings _settings;
@@ -16,10 +20,19 @@ class _SettingsViewState extends State<SettingsView> {
 
   _SettingsViewState(this._settings);
 
+  DateTime _from = DateTimeController.toStartOfDay(DateTime.now());
+  DateTime _to = DateTimeController.toEndOfDay(DateTime.now());
+
   void updateTheme() {
     ThemeController().updateThemeMode(_settings);
     _settings.update();
   }
+
+  _deleteItems(BuildContext context) => CustomDialog.question(context,
+      title: "Confirm deletion",
+      message: "Are you sure?", handler: (value) {
+        if (value) TimeStampController().removeByPeriod(_from, _to);
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +64,21 @@ class _SettingsViewState extends State<SettingsView> {
                       }),
               value: useDarkMode,
             ),
+            Divider(),
+            ListTile(
+              title: Text('Manage data'),
+              subtitle: Row(
+                children: [
+                  Text('From:'),
+                  DateSelector(
+                      currentDate: _from, onSelected: (picked) => setState(() => _from = DateTimeController.toStartOfDay(picked))),
+                  Text('To:'),
+                  DateSelector(
+                      currentDate: _to, onSelected: (picked) => setState(() => _to = DateTimeController.toEndOfDay(picked))),
+                ],
+              ),
+              trailing: TextButton(onPressed: () => _deleteItems(context), child: Text('Delete')),
+            )
           ]),
     );
   }
